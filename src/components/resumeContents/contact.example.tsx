@@ -1,0 +1,4 @@
+const contact = {
+  email: "",
+  phone: "",
+};
