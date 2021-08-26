@@ -17,5 +17,5 @@
     "jsx": "react-jsx"
   },
   "include": ["src"],
-  "exclude": ["resumeContents"]
+  "exclude": ["src/components/resumeContents"]
 }
