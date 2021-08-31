@@ -8,9 +8,9 @@ SyntaxHighlighter.registerLanguage("ts", ts);
 
 const CodePaper = ({ codeString }: { codeString: string }) => {
   return (
-    <Paper elevation={10} style={{ borderRadius: 8, overflow: "hidden" }}>
+    <Paper elevation={5} style={{ borderRadius: 8, overflow: "hidden" }}>
       <SyntaxHighlighter
-        customStyle={{ margin: 0 }}
+        customStyle={{ margin: 0, fontSize: "11pt" }}
         language="ts"
         style={prism}
       >
