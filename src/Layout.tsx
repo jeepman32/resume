@@ -76,8 +76,10 @@ const Layout = () => {
                 </Typography>
                 <Typography>
                   <i>
-                    {company}, {team ? team + ", " : ""}{startDate} to{" "}
-                    {endDate ? endDate : "present"}
+                    {company}, {team ? team + ", " : ""}
+                    {startDate === endDate
+                      ? startDate
+                      : `${startDate} to ${endDate ? endDate : "present"}`}
                   </i>
                 </Typography>
                 <Typography>{description}</Typography>
