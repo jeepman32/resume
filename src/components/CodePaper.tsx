@@ -1,4 +1,5 @@
 import Paper from "@material-ui/core/Paper";
+import styled from "@material-ui/core/styles/styled";
 
 import { PrismAsyncLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import ts from "react-syntax-highlighter/dist/esm/languages/prism/typescript";
@@ -6,17 +7,26 @@ import prism from "react-syntax-highlighter/dist/esm/styles/prism/prism";
 
 SyntaxHighlighter.registerLanguage("ts", ts);
 
+const StyledPaper = styled(Paper)(({ theme: { spacing } }) => ({
+  borderRadius: spacing(1),
+  overflow: "hidden",
+}));
+
 const CodePaper = ({ codeString }: { codeString: string }) => {
   return (
-    <Paper elevation={5} style={{ borderRadius: 8, overflow: "hidden" }}>
+    <StyledPaper elevation={5}>
       <SyntaxHighlighter
-        customStyle={{ margin: 0, fontSize: "11pt" }}
+        customStyle={{
+          fontSize: "11pt",
+          padding: "2em",
+          margin: "-1em",
+        }}
         language="ts"
         style={prism}
       >
         {codeString}
       </SyntaxHighlighter>
-    </Paper>
+    </StyledPaper>
   );
 };
 

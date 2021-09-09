@@ -1,6 +1,7 @@
 import { ThemeProvider, createTheme } from "@material-ui/core";
 import Layout from "./Layout";
 
+const defaultTheme = createTheme();
 const theme = createTheme({
   typography: {
     fontFamily: "'Atkinson Hyperlegible', sans-serif",
@@ -16,6 +17,13 @@ const theme = createTheme({
       fontSize: "9pt",
       textTransform: "uppercase",
       fontWeight: 700,
+      margin: defaultTheme.spacing(2, 0, 1, 0),
+    },
+    subtitle2: {
+      fontSize: "9pt",
+      fontStyle: "italic",
+      color: defaultTheme.palette.grey[900],
+      margin: defaultTheme.spacing(0.5, 0, 2, 0),
     },
   },
 });
