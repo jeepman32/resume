@@ -68,7 +68,7 @@ const Layout = () => {
       <div>
         <Header>
           <Typography variant="h1">{name} - CV</Typography>
-          <Link variant="subtitle2" href="https://github.com/jeepman32/resume">
+          <Link variant="subtitle2" target="_blank" rel="noopener noreferrer" href="https://github.com/jeepman32/resume">
             Check out my resume's source code!
           </Link>
         </Header>
