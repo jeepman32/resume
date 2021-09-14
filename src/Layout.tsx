@@ -78,10 +78,10 @@ const Layout = () => {
           alignItems="center"
           marginTop={4}
         >
-          <Box marginRight={2} width="calc((4 / 12) * 100%)">
+          <Box marginRight={2}>
             <CodePaper codeString={contact} />
           </Box>
-          <Box marginLeft={2} width="calc((8 / 12) * 100%)">
+          <Box marginLeft={2}>
             <Typography>{blurb}</Typography>
           </Box>
         </Box>
