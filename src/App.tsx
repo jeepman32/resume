@@ -23,7 +23,6 @@ const theme = createTheme({
       fontSize: "9pt",
       fontStyle: "italic",
       color: defaultTheme.palette.grey[900],
-      margin: defaultTheme.spacing(0.5, 0, 2, 0),
     },
   },
 });

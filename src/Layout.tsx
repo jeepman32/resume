@@ -25,45 +25,31 @@ import Link from "@material-ui/core/Link";
 
 export type JobType = typeof body[number];
 
-const GridContainer = styled("div")(({ theme: { spacing } }) => ({
-  display: "grid",
-  gridTemplateColumns: "repeat(12, 1fr)",
-  gridGap: spacing(4),
-  gridTemplateAreas: `
-      "header header header header header header header header header header header header"
-      "contact contact contact contact contact blurb blurb blurb blurb blurb blurb blurb"
-      "attributes attributes attributes attributes attributes attributes attributes attributes attributes attributes attributes attributes"
-      "body body body body body body body body body body body body"
-      "bodyNarrow bodyNarrow bodyNarrow bodyNarrow bodyNarrow bodyNarrow bodyNarrow capabilities capabilities capabilities capabilities capabilities"`,
-}));
-
-const Narrow = styled("div")(({ theme: { spacing } }) => ({
-  display: "flex",
-  flexDirection: "column",
-  gridArea: "capabilities",
+const InfraNarrow = styled("div")(({ theme: { spacing } }) => ({
+  float: "right",
+  marginLeft: spacing(2),
+  width: `calc(((5 / 12) * 100%) - ${spacing(2)})`,
   "& > div:not(:last-child)": {
     marginBottom: spacing(6),
-    "@media print": {
-      marginBottom: spacing(13),
-    },
   },
 }));
 
-const BodyNarrow = styled("div")({
-  gridArea: "bodyNarrow",
-  pageBreakInside: "avoid",
+const BodyNarrow = styled("div")(({ theme: { spacing } }) => ({
+  float: "left",
+  marginRight: spacing(2),
+  width: `calc(((7 / 12) * 100%) - ${spacing(2)})`,
   "& > div:last-child": {
     margin: "0",
   },
-});
+}));
 
 const TitleWrapper = styled("div")(({ theme: { spacing } }) => ({
   margin: spacing(2, 0, 4, 0),
 }));
 
 const Interests = styled("div")(({ theme: { spacing } }) => ({
-  marginTop: spacing(4),
-  position: "relative",
+  paddingTop: spacing(4),
+  clear: "both",
   pageBreakInside: "avoid",
 }));
 
@@ -76,45 +62,48 @@ const Header = styled("div")({
 
 const bodySplit = 3;
 
-// capabilities
 const Layout = () => {
   return (
     <Box width="210mm" padding="0.5in">
-      <GridContainer>
+      <div>
         <Header>
           <Typography variant="h1">{name} - CV</Typography>
-          <Link href="https://github.com/jeepman32/resume">
-            Check out the source code!
+          <Link variant="subtitle2" href="https://github.com/jeepman32/resume">
+            Check out my resume's source code!
           </Link>
         </Header>
-        <Box gridArea="contact">
-          <CodePaper codeString={contact} />
-        </Box>
         <Box
-          gridArea="blurb"
           display="flex"
           justifyContent="center"
           alignItems="center"
+          marginTop={4}
         >
-          <Typography>{blurb}</Typography>
+          <Box marginRight={2} width="calc((4 / 12) * 100%)">
+            <CodePaper codeString={contact} />
+          </Box>
+          <Box marginLeft={2} width="calc((8 / 12) * 100%)">
+            <Typography>{blurb}</Typography>
+          </Box>
         </Box>
-        <Box gridArea="attributes">
+        <Box marginTop={4}>
           <CodePaper codeString={attributes} />
         </Box>
-        <Box gridArea="body">
+        <Box marginTop={4}>
           <TitleWrapper>
             <Typography variant="h2">Prior Experience</Typography>
           </TitleWrapper>
           {body.slice(0, bodySplit).map(Job)}
         </Box>
-        <BodyNarrow>
-          {body.slice(bodySplit, body.length - 1).map(Job)}
-        </BodyNarrow>
-        <Narrow>
-          <CodePaper codeString={capabilities} />
-          <CodePaper codeString={awards} />
-        </Narrow>
-      </GridContainer>
+        <div>
+          <BodyNarrow>
+            {body.slice(bodySplit, body.length - 1).map(Job)}
+          </BodyNarrow>
+          <InfraNarrow>
+            <CodePaper codeString={capabilities} />
+            <CodePaper codeString={awards} />
+          </InfraNarrow>
+        </div>
+      </div>
       <Interests>
         <TitleWrapper>
           <Typography variant="h2">Personal Interests</Typography>

@@ -18,6 +18,10 @@ const Section = styled("section")({
   pageBreakInside: "avoid",
 });
 
+const Subtitle = styled(Typography)(({ theme: { spacing } }) => ({
+  margin: spacing(0.5, 0, 2, 0),
+}));
+
 const Job = ({
   title,
   company,
@@ -39,14 +43,14 @@ const Job = ({
         <Typography>
           <b>{title}</b> - <i>{company}</i>
         </Typography>
-        <Typography variant="subtitle2">
+        <Subtitle variant="subtitle2">
           {team ? team + ", " : ""}
           {startDate === endDate
             ? startDateFormatted
             : `${startDateFormatted} to ${
                 endDateFormatted ? endDateFormatted : "present"
               }`}
-        </Typography>
+        </Subtitle>
         <Typography>{description}</Typography>
       </Section>
       <Section>
