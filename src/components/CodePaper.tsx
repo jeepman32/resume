@@ -13,7 +13,6 @@ const StyledPaper = styled(Paper)(({ theme: { spacing } }) => ({
 }));
 
 const CodePaper = ({ codeString }: { codeString: string }) => {
-  console.log({ prism });
   return (
     <StyledPaper elevation={5}>
       <SyntaxHighlighter
@@ -21,7 +20,7 @@ const CodePaper = ({ codeString }: { codeString: string }) => {
           fontSize: "10.5pt",
           padding: "2em",
           margin: "-1em",
-          fontFamily: `"IBM Plex mono", monospace`
+          fontFamily: `"IBM Plex mono", monospace`,
         }}
         language="typescript"
         style={prism}

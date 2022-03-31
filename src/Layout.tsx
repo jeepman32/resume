@@ -6,6 +6,7 @@ import CodePaper from "./components/CodePaper";
 import body from "./components/contents/body.json";
 import interests from "./components/contents/interests.json";
 
+// Ignore these imports as we need raw files, not compiled code for the ✨ effects ✨
 /* eslint-disable import/no-webpack-loader-syntax */
 // @ts-ignore
 import attributes from "!!raw-loader!./components/contents/attributes.tsx";
@@ -21,27 +22,10 @@ import capabilities from "!!raw-loader!./components/contents/capabilities.tsx";
 import name from "!!raw-loader!./components/contents/name.txt";
 import Job from "./components/Job";
 import Link from "@material-ui/core/Link";
+import { useMemo, useState } from "react";
 /* eslint-enable import/no-webpack-loader-syntax */
 
 export type JobType = typeof body[number];
-
-const InfraNarrow = styled("div")(({ theme: { spacing } }) => ({
-  float: "right",
-  marginLeft: spacing(2),
-  width: `calc(((5 / 12) * 100%) - ${spacing(2)})`,
-  "& > div:not(:last-child)": {
-    marginBottom: spacing(6),
-  },
-}));
-
-const BodyNarrow = styled("div")(({ theme: { spacing } }) => ({
-  float: "left",
-  marginRight: spacing(2),
-  width: `calc(((7 / 12) * 100%) - ${spacing(2)})`,
-  "& > div:last-child": {
-    margin: "0",
-  },
-}));
 
 const TitleWrapper = styled("div")(({ theme: { spacing } }) => ({
   margin: spacing(2, 0, 4, 0),
@@ -60,15 +44,35 @@ const Header = styled("div")({
   gridArea: "header",
 });
 
-const bodySplit = 3;
+const fudgeFactor = 72; // px
 
 const Layout = () => {
+  const [jobsElement, setJobsElement] = useState<HTMLDivElement | null>(null);
+  const [infraElement, setInfraElement] = useState<HTMLDivElement | null>(null);
+  const jobsHeight = jobsElement ? jobsElement.scrollHeight : 0;
+  const floatHeight = useMemo(() => {
+    if (infraElement) {
+      const infraHeight = infraElement.scrollHeight;
+
+      return Math.max(0, jobsHeight - infraHeight + fudgeFactor);
+    }
+
+    return 0;
+  }, [infraElement, jobsHeight]);
+
+  console.log();
+
   return (
-    <Box width="210mm" padding="0.5in">
+    <Box width="210mm" /* padding="1in" */>
       <div>
         <Header>
           <Typography variant="h1">{name} - CV</Typography>
-          <Link variant="subtitle2" target="_blank" rel="noopener noreferrer" href="https://github.com/jeepman32/resume">
+          <Link
+            variant="subtitle2"
+            target="_blank"
+            rel="noopener noreferrer"
+            href={process.env.REACT_APP_GITHUB_URL}
+          >
             Check out my resume's source code!
           </Link>
         </Header>
@@ -89,29 +93,34 @@ const Layout = () => {
           <CodePaper codeString={attributes} />
         </Box>
         <Box marginTop={4}>
+          <div style={{ float: "right", height: floatHeight }} />
+          <div
+            ref={setInfraElement}
+            style={{ float: "right", clear: "right", marginLeft: 32 }}
+          >
+            <div style={{ height: 24 }} />
+            <CodePaper codeString={capabilities} />
+            <div style={{ height: 48 }} />
+            <CodePaper codeString={awards} />
+          </div>
           <TitleWrapper>
             <Typography variant="h2">Prior Experience</Typography>
           </TitleWrapper>
-          {body.slice(0, bodySplit).map(Job)}
+          <div ref={setJobsElement}>{body.map(Job)}</div>
         </Box>
-        <div>
-          <BodyNarrow>
-            {body.slice(bodySplit, body.length - 1).map(Job)}
-          </BodyNarrow>
-          <InfraNarrow>
-            <CodePaper codeString={capabilities} />
-            <CodePaper codeString={awards} />
-          </InfraNarrow>
-        </div>
       </div>
       <Interests>
         <TitleWrapper>
           <Typography variant="h2">Personal Interests</Typography>
         </TitleWrapper>
         <Typography variant="body1">
-          {interests.map((interest) => (
-            <p dangerouslySetInnerHTML={{ __html: interest }} />
-          ))}
+          {interests.map((interest) =>
+            typeof interest === "string" ? (
+              <p>{interest}</p>
+            ) : (
+              <p style={interest.style}>{interest.text}</p>
+            )
+          )}
         </Typography>
       </Interests>
     </Box>
